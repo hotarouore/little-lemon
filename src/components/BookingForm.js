@@ -22,7 +22,7 @@ const BookingForm = ({ availableTimes, dispatchDateChange, submitForm, today, in
     useEffect(() => {
         if (formData.date === today && availableTimes && availableTimes.length > 0 && !initialData?.time) {
             setFormData(prevData => ({ ...prevData, time: availableTimes[0] }));
-        } else if (formData.date === today && (!availableTimes || availableTimes.length === 0)  && !initialData?.time) {
+        } else if (formData.date === today && (!availableTimes || availableTimes.length === 0) && !initialData?.time) {
             setFormData(prevData => ({ ...prevData, time: '' }));
         }
     }, [today, availableTimes, initialData?.time, formData.date]);
@@ -33,14 +33,11 @@ const BookingForm = ({ availableTimes, dispatchDateChange, submitForm, today, in
                 setFormData(prevData => ({ ...prevData, time: availableTimes[0] }));
             }
         } else {
-
             if (!initialData || formData.date !== initialData.date) {
                 setFormData(prevData => ({ ...prevData, time: '' }));
             }
         }
-
     }, [availableTimes, initialData, formData.date, formData.time]);
-
 
     const validateField = useCallback((name, value) => {
         let errorMsg = '';
@@ -50,7 +47,6 @@ const BookingForm = ({ availableTimes, dispatchDateChange, submitForm, today, in
                 else if (new Date(value) < new Date(new Date().setHours(0,0,0,0))) errorMsg = 'Date cannot be in the past.';
                 break;
             case 'time':
-
                 if (availableTimes && availableTimes.length === 0 && value === '' && formData.date >= today) {
                     errorMsg = 'No times available for this date.';
                 } else if (!value && availableTimes && availableTimes.length > 0) {
@@ -71,15 +67,11 @@ const BookingForm = ({ availableTimes, dispatchDateChange, submitForm, today, in
         return errorMsg;
     }, [availableTimes, formData.date, today]);
 
-
     useEffect(() => {
         let changed = false;
         const newCalculatedErrors = {};
 
-
         Object.keys(formData).forEach(fieldName => {
-
-
             if (isTouched[fieldName] !== undefined) {
                 const currentFieldValue = formData[fieldName];
                 const newError = validateField(fieldName, currentFieldValue);
@@ -89,7 +81,6 @@ const BookingForm = ({ availableTimes, dispatchDateChange, submitForm, today, in
                 }
             }
         });
-
 
         Object.keys(errors).forEach(fieldName => {
             if (errors[fieldName] && !newCalculatedErrors[fieldName]) {
@@ -101,8 +92,6 @@ const BookingForm = ({ availableTimes, dispatchDateChange, submitForm, today, in
             setErrors(newCalculatedErrors);
         }
     }, [formData, isTouched, validateField, errors]);
-
-
 
     const runAllValidations = useCallback(() => {
         const newValidationErrors = {};
@@ -118,7 +107,7 @@ const BookingForm = ({ availableTimes, dispatchDateChange, submitForm, today, in
         });
         setErrors(newValidationErrors);
         return formIsValidOverall;
-    }, [formData, validateField, setErrors]);
+    }, [formData, validateField]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -126,33 +115,31 @@ const BookingForm = ({ availableTimes, dispatchDateChange, submitForm, today, in
         if (name === 'date') {
             dispatchDateChange(value);
         }
-
     };
 
     const handleBlur = (e) => {
         const { name, value } = e.target;
         setIsTouched(prev => ({ ...prev, [name]: true }));
-
-
-
         const error = validateField(name, value);
         setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         setIsTouched({ date: true, time: true, guests: true, occasion: true });
-        if (runAllValidations()) {
+        const isValid = runAllValidations();
+        if (isValid) {
             submitForm(formData);
-        } else {
-            console.log('Form validation failed on submit. Current errors:', errors);
         }
     };
 
     const isFormSubmittable = () => {
+        // Check if all required fields are filled
+        if (!formData.date || !formData.time || !formData.guests || !formData.occasion) {
+            return false;
+        }
 
-
+        // Check for validation errors
         for (const key in formData) {
             if (key !== 'specialRequests' && key !== 'seating') {
                 const fieldError = validateField(key, formData[key]);
@@ -160,36 +147,67 @@ const BookingForm = ({ availableTimes, dispatchDateChange, submitForm, today, in
             }
         }
 
-        if (availableTimes.length === 0 && formData.date >= today && !validateField('time', formData.time)) {
-
+        // Special case for time when no times are available
+        if (availableTimes.length === 0 && formData.date >= today) {
             return false;
         }
+
         return true;
     };
 
-
-
-
-
-// Ensure the return statement is complete with all fields as per your previous code
     return (
-        <form className="booking-form" onSubmit={handleSubmit} noValidate aria-labelledby="form-title">
+        <form 
+            className="booking-form" 
+            onSubmit={handleSubmit} 
+            noValidate 
+            aria-labelledby="form-title"
+            aria-describedby="form-description"
+        >
             <h2 id="form-title" className="form-title-main">Book a Table</h2>
+            <p id="form-description" className="form-description">
+                Please fill out the form below to make your reservation. Fields marked with an asterisk (*) are required.
+            </p>
 
             <div className="form-group">
-                <label htmlFor="date">Choose date <span aria-hidden="true">*</span></label>
+                <label htmlFor="date">
+                    Choose date <span className="required" aria-hidden="true">*</span>
+                    <span className="sr-only">(required)</span>
+                </label>
                 <input
-                    type="date" id="date" name="date" value={formData.date} onChange={handleChange} onBlur={handleBlur}
-                    required min={today} aria-describedby={errors.date && isTouched.date ? "date-error" : undefined} aria-invalid={!!(errors.date && isTouched.date)}
+                    type="date"
+                    id="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    required
+                    min={today}
+                    aria-describedby={errors.date && isTouched.date ? "date-error" : undefined}
+                    aria-invalid={!!(errors.date && isTouched.date)}
+                    aria-required="true"
                 />
-                {errors.date && isTouched.date && <p id="date-error" className="error-message" role="alert">{errors.date}</p>}
+                {errors.date && isTouched.date && (
+                    <p id="date-error" className="error-message" role="alert">
+                        {errors.date}
+                    </p>
+                )}
             </div>
 
             <div className="form-group">
-                <label htmlFor="time">Choose time <span aria-hidden="true">*</span></label>
+                <label htmlFor="time">
+                    Choose time <span className="required" aria-hidden="true">*</span>
+                    <span className="sr-only">(required)</span>
+                </label>
                 <select
-                    id="time" name="time" value={formData.time} onChange={handleChange} onBlur={handleBlur} required
-                    aria-describedby={errors.time && isTouched.time ? "time-error" : undefined} aria-invalid={!!(errors.time && isTouched.time)}
+                    id="time"
+                    name="time"
+                    value={formData.time}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    required
+                    aria-describedby={errors.time && isTouched.time ? "time-error" : undefined}
+                    aria-invalid={!!(errors.time && isTouched.time)}
+                    aria-required="true"
                     disabled={availableTimes.length === 0 && formData.date >= today}
                 >
                     {availableTimes.length === 0 && formData.date >= today ? (
@@ -199,26 +217,59 @@ const BookingForm = ({ availableTimes, dispatchDateChange, submitForm, today, in
                             <option key={timeSlot} value={timeSlot}>{timeSlot}</option>
                         ))
                     )}
-                    {availableTimes.length > 0 && !formData.time && <option value="" disabled>Select a time</option>}
+                    {availableTimes.length > 0 && !formData.time && (
+                        <option value="" disabled>Select a time</option>
+                    )}
                 </select>
-                {errors.time && isTouched.time && <p id="time-error" className="error-message" role="alert">{errors.time}</p>}
+                {errors.time && isTouched.time && (
+                    <p id="time-error" className="error-message" role="alert">
+                        {errors.time}
+                    </p>
+                )}
             </div>
 
             <div className="form-group">
-                <label htmlFor="guests">Number of guests <span aria-hidden="true">*</span></label>
+                <label htmlFor="guests">
+                    Number of guests <span className="required" aria-hidden="true">*</span>
+                    <span className="sr-only">(required)</span>
+                </label>
                 <input
-                    type="number" id="guests" name="guests" value={formData.guests} onChange={handleChange} onBlur={handleBlur}
-                    min="1" max="10" required placeholder="1-10 guests"
-                    aria-describedby={errors.guests && isTouched.guests ? "guests-error" : undefined} aria-invalid={!!(errors.guests && isTouched.guests)}
+                    type="number"
+                    id="guests"
+                    name="guests"
+                    value={formData.guests}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    min="1"
+                    max="10"
+                    required
+                    placeholder="1-10 guests"
+                    aria-describedby={errors.guests && isTouched.guests ? "guests-error" : undefined}
+                    aria-invalid={!!(errors.guests && isTouched.guests)}
+                    aria-required="true"
                 />
-                {errors.guests && isTouched.guests && <p id="guests-error" className="error-message" role="alert">{errors.guests}</p>}
+                {errors.guests && isTouched.guests && (
+                    <p id="guests-error" className="error-message" role="alert">
+                        {errors.guests}
+                    </p>
+                )}
             </div>
 
             <div className="form-group">
-                <label htmlFor="occasion">Occasion <span aria-hidden="true">*</span></label>
+                <label htmlFor="occasion">
+                    Occasion <span className="required" aria-hidden="true">*</span>
+                    <span className="sr-only">(required)</span>
+                </label>
                 <select
-                    id="occasion" name="occasion" value={formData.occasion} onChange={handleChange} onBlur={handleBlur} required
-                    aria-describedby={errors.occasion && isTouched.occasion ? "occasion-error" : undefined} aria-invalid={!!(errors.occasion && isTouched.occasion)}
+                    id="occasion"
+                    name="occasion"
+                    value={formData.occasion}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    required
+                    aria-describedby={errors.occasion && isTouched.occasion ? "occasion-error" : undefined}
+                    aria-invalid={!!(errors.occasion && isTouched.occasion)}
+                    aria-required="true"
                 >
                     <option value="Birthday">Birthday</option>
                     <option value="Anniversary">Anniversary</option>
@@ -226,37 +277,74 @@ const BookingForm = ({ availableTimes, dispatchDateChange, submitForm, today, in
                     <option value="Celebration">Celebration (Other)</option>
                     <option value="Casual">Casual Dining</option>
                 </select>
-                {errors.occasion && isTouched.occasion && <p id="occasion-error" className="error-message" role="alert">{errors.occasion}</p>}
+                {errors.occasion && isTouched.occasion && (
+                    <p id="occasion-error" className="error-message" role="alert">
+                        {errors.occasion}
+                    </p>
+                )}
             </div>
 
             <fieldset className="form-group">
                 <legend>Seating preference</legend>
-                <div className="radio-group-container">
+                <div className="radio-group-container" role="radiogroup" aria-label="Seating preference">
                     <div className="radio-option">
-                        <input type="radio" id="indoor" name="seating" value="Indoor" checked={formData.seating === "Indoor"} onChange={handleChange}/>
+                        <input
+                            type="radio"
+                            id="indoor"
+                            name="seating"
+                            value="Indoor"
+                            checked={formData.seating === "Indoor"}
+                            onChange={handleChange}
+                            aria-label="Indoor seating"
+                        />
                         <label htmlFor="indoor">Indoor</label>
                     </div>
                     <div className="radio-option">
-                        <input type="radio" id="outdoor" name="seating" value="Outdoor" checked={formData.seating === "Outdoor"} onChange={handleChange}/>
+                        <input
+                            type="radio"
+                            id="outdoor"
+                            name="seating"
+                            value="Outdoor"
+                            checked={formData.seating === "Outdoor"}
+                            onChange={handleChange}
+                            aria-label="Outdoor seating"
+                        />
                         <label htmlFor="outdoor">Outdoor</label>
                     </div>
                     <div className="radio-option">
-                        <input type="radio" id="no-preference" name="seating" value="No Preference" checked={formData.seating === "No Preference"} onChange={handleChange}/>
+                        <input
+                            type="radio"
+                            id="no-preference"
+                            name="seating"
+                            value="No Preference"
+                            checked={formData.seating === "No Preference"}
+                            onChange={handleChange}
+                            aria-label="No seating preference"
+                        />
                         <label htmlFor="no-preference">No Preference</label>
                     </div>
                 </div>
             </fieldset>
 
             <div className="form-group">
-                <label htmlFor="specialRequests">Special requests (optional)</label>
+                <label htmlFor="specialRequests">Special Requests</label>
                 <textarea
-                    id="specialRequests" name="specialRequests" value={formData.specialRequests} onChange={handleChange}
-                    rows="3" placeholder="e.g. dietary restrictions, high chair needed"
+                    id="specialRequests"
+                    name="specialRequests"
+                    value={formData.specialRequests}
+                    onChange={handleChange}
+                    placeholder="Any special requests or dietary requirements?"
+                    aria-label="Special requests or dietary requirements"
                 />
             </div>
 
-            <button type="submit" className="submit-button cta-button" disabled={!isFormSubmittable()} aria-label="Confirm and reserve your table">
-                Make Your Reservation
+            <button
+                type="submit"
+                className="submit-button"
+                disabled={!isFormSubmittable()}
+                aria-disabled={!isFormSubmittable()}
+            >
+                Confirm and reserve your table
             </button>
         </form>
     );

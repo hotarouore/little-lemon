@@ -11,11 +11,13 @@ import OrderOnlinePage from './pages/OrderOnlinePage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import MyReservationsPage from './pages/MyReservationsPage';
+import MetaTags from './components/MetaTags';
 import './App.css';
 
 function App() {
     return (
         <Router>
+            <MetaTags />
             <div className="app-container">
                 <Header />
                 <div className="main-content">
