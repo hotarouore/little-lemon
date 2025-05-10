@@ -1,0 +1,35 @@
+/* src/pages/BookingPage.css */
+.booking-page-container { /* Uses .container from App.css */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.login-prompt-banner {
+    text-align: center;
+    padding: 1rem 1.5rem;
+    background-color: #fff3cd; /* Light yellow warning background */
+    border: 1px solid #ffeeba; /* Yellow border */
+    color: #856404; /* Dark yellow text */
+    border-radius: 8px;
+    margin: 0 auto 2rem auto; /* Centered, with bottom margin */
+    max-width: 600px; /* Limit width */
+}
+
+.login-prompt-banner p {
+    margin: 0.25rem 0;
+    font-size: 0.95rem;
+}
+
+.login-prompt-banner a {
+    color: #721c24; /* Darker red for link, or match theme */
+    font-weight: bold;
+    text-decoration: underline;
+}
+.login-prompt-banner a:hover {
+    color: #491217;
+}
+
+.login-prompt-banner .prompt-detail {
+    font-size: 0.85em;
+    color: #666666; /* Softer grey for detail text */
+}

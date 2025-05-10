@@ -1,0 +1,135 @@
+/* src/pages/AuthPage.css */
+.auth-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 140px); /* Adjust based on header/footer height */
+    background-color: #495E57; /* Dark green background like the design */
+    padding: 2rem 1rem; /* Responsive padding */
+    box-sizing: border-box;
+}
+
+.auth-form-wrapper {
+    background-color: #3D4E48; /* Darker green box from Sign In screenshot */
+    color: #EDEFEE; /* Light text for contrast */
+    padding: 2.5rem 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+}
+
+.auth-logo-placeholder {
+    font-family: 'Markazi Text', serif;
+    font-size: 2rem; /* Adjusted size */
+    font-weight: 500;
+    color: #F4CE14; /* Yellow */
+    margin-bottom: 1.5rem;
+}
+
+.auth-title {
+    font-family: 'Markazi Text', serif; /* Using Markazi for title consistency */
+    font-size: 2.2rem; /* "Sign In" title */
+    color: #FFFFFF; /* White title text */
+    margin-bottom: 2rem; /* More space */
+}
+
+.auth-form .form-group {
+    margin-bottom: 1.25rem;
+    text-align: left;
+}
+
+.auth-form .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: normal; /* Label text in design isn't bold */
+    color: #EDEFEE; /* Light text for labels */
+    font-size: 0.9rem;
+}
+
+.auth-form .form-group input {
+    width: 100%;
+    padding: 0.85rem 1rem; /* Increased padding */
+    border: 1px solid #495E57; /* Border to match the darker green box bg */
+    background-color: #495E57; /* Input field background */
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    color: #FFFFFF; /* White input text */
+    font-family: 'Karla', sans-serif;
+}
+
+.auth-form .form-group input::placeholder {
+    color: #adb5bd; /* Lighter placeholder text */
+}
+
+.auth-form .form-group input:focus {
+    outline: none;
+    border-color: #F4CE14; /* Yellow focus */
+    box-shadow: 0 0 0 3px rgba(244, 206, 20, 0.25); /* More visible focus shadow */
+}
+
+.auth-button { /* Also used by .cta-button via App.css, but can be specific here */
+    width: 100%;
+    padding: 0.85rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 1rem;
+    font-family: 'Karla', sans-serif;
+}
+
+.auth-button.primary {
+    background-color: #F4CE14; /* Yellow CTA */
+    color: #333333; /* Dark text for contrast */
+}
+.auth-button.primary:hover {
+    background-color: #e0b600;
+    transform: translateY(-1px);
+}
+
+.auth-forgot-password {
+    display: block;
+    text-align: right;
+    font-size: 0.85rem;
+    color: #F4CE14; /* Yellow link */
+    margin-bottom: 1.5rem;
+    margin-top: -0.75rem; /* Pull it closer to the password field */
+}
+.auth-forgot-password:hover {
+    text-decoration: underline;
+}
+
+.auth-switch-link {
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.auth-switch-link p {
+    color: #EDEFEE; /* Light text */
+    margin: 0;
+}
+
+.auth-switch-link a {
+    color: #F4CE14; /* Yellow link */
+    font-weight: bold;
+    text-decoration: none;
+}
+.auth-switch-link a:hover {
+    text-decoration: underline;
+}
+
+.auth-error {
+    color: #f8d7da; /* Lighter red for text for better contrast on dark red */
+    background-color: #721c24; /* Darker red background for the error message box */
+    border: 1px solid #f5c6cb; /* Light red border */
+    padding: 0.75rem 1rem; /* More padding */
+    border-radius: 6px; /* Rounded corners */
+    margin-bottom: 1.25rem; /* Space below error message */
+    font-size: 0.9rem;
+    text-align: left; /* Align error text to the left */
+}

@@ -1,0 +1,114 @@
+
+.footer {
+    background-color: #333333;
+    color: #EDEFEE;
+    padding: 3rem 0 1rem 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #4A4A4A;
+}
+
+.footer-section h4 {
+    font-family: 'Markazi Text', serif;
+    color: #F4CE14;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.footer-section.logo-section .footer-logo-placeholder {
+    font-family: 'Markazi Text', serif;
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: #F4CE14;
+    display: block;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+}
+.footer-section.logo-section .footer-logo-img {
+    max-height: 15rem;
+    margin-bottom: 0.75rem;
+}
+.footer-tagline {
+    font-size: 0.85rem;
+    color: #cccccc;
+}
+
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.6rem;
+}
+
+.footer-section ul li a,
+.footer-section p a,
+.footer-section address {
+    color: #EDEFEE;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-section ul li a:hover,
+.footer-section p a:hover {
+    color: #F4CE14;
+    text-decoration: underline;
+}
+
+.footer-section address {
+    font-style: normal;
+    margin-bottom: 0.5rem;
+}
+
+.footer-bottom {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #aaaaaa;
+    padding-top: 1rem;
+}
+
+.footer-bottom p {
+    margin: 0.25rem 0;
+}
+
+.footer-bottom a {
+    color: #cccccc;
+}
+.footer-bottom a:hover {
+    color: #F4CE14;
+}
+
+
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.5rem;
+    }
+    .footer-section h4 {
+        font-size: 1.2rem;
+    }
+    .footer-section.logo-section .footer-logo-placeholder {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .footer-section ul {
+        margin-bottom: 1rem;
+    }
+}

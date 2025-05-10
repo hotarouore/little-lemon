@@ -1,0 +1,112 @@
+.confirmation-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 140px);
+    padding: 2rem 1rem;
+    background-color: #f8f9fa;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.confirmation-card {
+    background-color: #ffffff;
+    padding: 2.5rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(73, 94, 87, 0.15);
+    max-width: 600px;
+    width: 100%;
+    border-top: 5px solid #F4CE14;
+}
+
+.confirmation-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #F4CE14;
+}
+
+.confirmation-card h1 {
+    font-family: 'Markazi Text', serif;
+    color: #495E57;
+    font-size: 2.8rem;
+    margin-bottom: 0.75rem;
+}
+
+.greeting-message {
+    font-size: 1.15rem;
+    color: #333333;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.booking-details-summary {
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    border: 1px dashed #dee2e6;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    text-align: left;
+}
+
+.booking-details-summary p {
+    font-size: 1rem;
+    color: #495057;
+    margin-bottom: 0.6rem;
+}
+.booking-details-summary p:last-child {
+    margin-bottom: 0;
+}
+.booking-details-summary strong {
+    color: #495E57;
+    margin-right: 0.5em;
+}
+
+.fallback-message {
+    font-size: 1rem;
+    color: #555;
+    margin: 2rem 0;
+    font-style: italic;
+}
+
+.look-forward-message {
+    font-size: 1rem;
+    color: #495057;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+.confirmation-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+@media (min-width: 480px) {
+    .confirmation-actions {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+.confirmation-actions .cta-button {
+    width: 100%;
+    font-size: 1rem;
+}
+@media (min-width: 480px) {
+    .confirmation-actions .cta-button {
+        width: auto;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+.view-my-bookings-button {
+    background-color: #495E57;
+    color: #FFFFFF;
+}
+.view-my-bookings-button:hover {
+    background-color: #323e3a;
+}
